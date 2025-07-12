@@ -166,6 +166,13 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.autoindent = true
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -673,6 +680,11 @@ require('lazy').setup({
           },
         },
         filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        on_attach = function(client, bufnr)
+          if vim.bo[bufnr].filetype == 'vue' then
+            client.server_capabilities.semanticTokensProvider = nil
+          end
+        end,
       }
 
       local vue_ls_config = {
@@ -701,6 +713,28 @@ require('lazy').setup({
             end)
           end
         end,
+        settings = {
+          typescript = {
+            inlayHints = {
+              enumMemberValues = {
+                enabled = true,
+              },
+              functionLikeReturnTypes = {
+                enabled = true,
+              },
+              propertyDeclarationTypes = {
+                enabled = true,
+              },
+              parameterTypes = {
+                enabled = true,
+                suppressWhenArgumentMatchesName = true,
+              },
+              variableTypes = {
+                enabled = true,
+              },
+            },
+          },
+        },
       }
 
       vim.lsp.config('vtsls', vtsls_config)
