@@ -576,7 +576,7 @@ require('lazy').setup({
         },
       }
 
-      local all_lsps = { 'lua_ls', 'vtsls', 'vue_ls', 'cssls', 'html', 'emmet_language_server' }
+      local all_lsps = { 'lua_ls', 'vtsls', 'vue_ls', 'cssls', 'html', 'emmet_language_server', 'jsonls' }
       vim.lsp.enable(all_lsps)
 
       require('mason-tool-installer').setup {
@@ -627,6 +627,8 @@ require('lazy').setup({
         css = { 'prettierd', 'prettier', stop_after_first = true },
         scss = { 'prettierd', 'prettier', stop_after_first = true },
         html = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        jsonc = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
