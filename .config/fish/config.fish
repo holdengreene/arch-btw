@@ -14,6 +14,4 @@ if type -q nvim
 alias v="nvim"
 end
 
-if type -q brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-end
