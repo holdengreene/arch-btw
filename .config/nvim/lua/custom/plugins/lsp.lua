@@ -191,7 +191,7 @@ return {
         },
       }
 
-      local all_lsps = { 'lua_ls', 'vtsls', 'vue_ls', 'cssls', 'html', 'emmet_language_server', 'jsonls' }
+      local all_lsps = { 'lua_ls', 'vtsls', 'vue_ls', 'cssls', 'html', 'emmet_language_server', 'jsonls', 'eslint' }
       vim.lsp.enable(all_lsps)
 
       require('mason-tool-installer').setup {
