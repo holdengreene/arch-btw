@@ -4,7 +4,7 @@ return {
     render = 'virtual',
     virtual_symbol = '●',
     virtual_symbol_position = 'eow',
-    virtual_sumbol_prefix = ' ',
+    virtual_symbol_prefix = ' ',
     virtual_symbol_suffix = '',
   },
 }
