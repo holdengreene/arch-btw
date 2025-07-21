@@ -3,15 +3,17 @@ if status is-interactive
 end
 
 if type -q starship
-starship init fish | source
+    starship init fish | source
 end
 
 if type -q bat
-set -x PAGER bat
+    set -x PAGER bat
 end
 
 if type -q nvim
-alias v="nvim"
+    alias v="nvim"
 end
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if test -e /home/linuxbrew/.linuxbrew/bin/brew
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+end
