@@ -48,6 +48,8 @@ vim.o.signcolumn = 'yes'
 -- Decrease update time
 vim.o.updatetime = 250
 
+vim.o.winborder = 'single'
+
 -- Configure how new splits should be opened
 vim.o.splitright = true
 vim.o.splitbelow = true

@@ -10,9 +10,7 @@ if type -q bat
     set -x PAGER bat
 end
 
-if type -q nvim
-    alias v="nvim"
-end
+alias v="nvim"
 
 if test -e /home/linuxbrew/.linuxbrew/bin/brew
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
