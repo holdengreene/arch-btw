@@ -99,7 +99,9 @@ return {
             'lazy',
             'mason',
             'oil',
-            'fidget'
+            'fidget',
+            'blink-cmp-menu',
+            'mason_backdrop'
         }
 
         -- Auto-install parsers and enable highlighting on FileType

@@ -108,22 +108,13 @@ return {
                     --  the definition of its *type*, not where it was *defined*.
                     map('grt', require('fzf-lua').lsp_typedefs, '[G]oto [T]ype Definition')
 
-                    -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-                    ---@param client vim.lsp.Client
-                    ---@param method vim.lsp.protocol.Method
-                    ---@param bufnr? integer some lsp support methods only in specific files
-                    ---@return boolean
-                    local function client_supports_method(client, method, bufnr)
-                        return client:supports_method(method, bufnr)
-                    end
-
                     -- The following two autocommands are used to highlight references of the
                     -- word under your cursor when your cursor rests there for a little while.
                     --    See `:help CursorHold` for information about when this is executed
                     --
                     -- When you move your cursor, the highlights will be cleared (the second autocommand).
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
-                    if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+                    if client and client:supports_method('textDocument/documentHighlight', event.buf) then
                         local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight',
                             { clear = false })
                         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -151,13 +142,15 @@ return {
                     -- code, if the language server you are using supports them
                     --
                     -- This may be unwanted, since they displace some of your code
-                    if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+                    if client and client:supports_method('textDocument/inlayHint', event.buf) then
                         map('<leader>th', function()
                             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
                         end, '[T]oggle Inlay [H]ints')
                     end
                 end,
             })
+
+            local capabilities = require('blink-cmp').get_lsp_capabilities()
 
             -- Diagnostic Config
             -- See :help vim.diagnostic.Opts
@@ -188,13 +181,36 @@ return {
                 },
             }
 
-            local all_lsps = { 'lua_ls', 'vtsls', 'vue_ls', 'cssls', 'html', 'emmet_language_server', 'jsonls', 'eslint',
-                'astro', 'csharp_ls' }
-            vim.lsp.enable(all_lsps)
+            local servers = {
+                lua_ls = {},
+                vtsls = {},
+                vue_ls = {},
+                cssls = {},
+                html = {},
+                emmet_language_server = {},
+                jsonls = {},
+                eslint = {},
+                astro = {},
+            }
+
+            if vim.fn.executable('php') == 1 then
+                servers.phpactor = {}
+            end
+
+            if vim.fn.executable("dotnet") == 1 then
+                servers.csharp_ls = {}
+            end
+
+            local ensure_installed = vim.tbl_keys(servers or {})
 
             require('mason-tool-installer').setup {
-                ensure_installed = all_lsps,
+                ensure_installed = ensure_installed,
             }
+
+            for name, server in pairs(servers) do
+                server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+                vim.lsp.enable(name)
+            end
         end,
     },
 }
