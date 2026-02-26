@@ -101,7 +101,9 @@ return {
             'oil',
             'fidget',
             'blink-cmp-menu',
-            'mason_backdrop'
+            'mason_backdrop',
+            'blink-cmp-signature',
+            'oil_preview'
         }
 
         -- Auto-install parsers and enable highlighting on FileType
